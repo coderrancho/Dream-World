@@ -1,0 +1,54 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Contact Us - Dream World {% endblock %}
+{% block body %}
+{% for message in messages  %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>Message : </strong> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+          </div>
+      {% endfor %}
+
+    <div class="container my-3 ">
+        <h3>Contact Us</h3>
+    <form action="/shop/contact/" method="post">{% csrf_token %}
+
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Enter your name">
+  </div>
+   <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter your email">
+  </div>
+    <div class="mb-3">
+    <label class="form-label">Phone</label>
+    <input type="tel" class="form-control" id="phone" name="phone" aria-describedby="emailHelp" placeholder="Enter your phone no.">
+  </div>
+<div class="mb-3">
+    <label class="form-label">How Can We Help You??</label>
+    <textarea name="desc" class="form-control" id="desc" cols="30" rows="7" placeholder="Enter your query"></textarea>
+</div>
+
+
+  <button type="submit" class="btn btn-info color" onclick="myFunction()">Submit</button>
+</form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    if(localStorage.getItem('cart')==null){
+        var cart={};
+        }
+    else{
+        cart=JSON.parse(localStorage.getItem('cart'));
+        }
+    let totalQty=0;
+    for (var item in cart){
+      totalQty+=cart[item][2];
+    }
+    document.getElementById('cart').innerHTML = totalQty;
+</script>
+{% endblock %}

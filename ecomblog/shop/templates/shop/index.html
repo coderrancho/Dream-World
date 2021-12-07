@@ -1,0 +1,170 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Dream World {% endblock %}
+{% block style %}
+      .card{
+      display:inline-block;
+      margin-left: 12px;
+      margin-top: 7px;
+      height:36rem;
+      }
+      .container{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      }
+      .img{
+        height:20rem;
+        width:87%;
+
+      }
+     .card-body{
+        height:10rem;
+        width:100%;
+     }
+.card-title{
+        height:3rem;
+        width:100%;
+        color:#00b8ff;
+     }
+.card-text{
+        height:4rem;
+        width:100%;
+     }
+     h1{
+        font-weight:900;
+        text-align:center;
+        margin-top:24px;
+        }
+@media only screen and (max-width: 336px) {
+  .card{
+      display:inline-block;
+      margin-left: 12px;
+      margin-top: 7px;
+      height:40rem;
+      }
+.card-title{
+        height:5rem;
+        width:100%;
+        color:#00b8ff;
+     }
+.quickview,.divpr{
+padding:0px;
+}
+}
+{% endblock %}
+
+{% block body %}
+    {% load static %}
+    {% for product,nSlides,range,divider in allProds %}
+    <h1>{{product.0.category}}</h1>
+    <div id="carouselExampleIndicators{{forloop.counter}}" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="margin-bottom: -2rem;">
+    <button type="button" data-bs-target="#carouselExampleIndicators{{forloop.counter}}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0" style="background-color: black;"></button>
+    {% for i in range %}
+      <button type="button" data-bs-target="#carouselExampleIndicators{{forloop.parentloop.counter}}" data-bs-slide-to="{{i}}" aria-label="Slide {{i}}" style="background-color: black;"></button>
+    {% endfor %}
+  </div>
+
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="container">
+          {% for i in product %}
+      <div class="card" style="width: 24rem;">
+  <a href="/shop/products/{{i.id}}"><img src="/media/{{i.image}}" class="mx-4 img" alt="..." id="imgpr{{i.id}}"></a>
+  <div class="card-body">
+    <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
+      <h5 class="card-title" id="pricepr{{i.id}}">Rs {{i.price}}</h5>
+    <p class="card-text">{{i.desc|slice:"0:50"}}...</p>
+    <div class="container">
+    <span id="divpr{{i.id}}" class="divpr mx-1">
+        <button class="btn btn-primary cart bg-info quickview" id="pr{{i.id}}">Add to Cart</button>
+     </span>
+    <a href="/shop/products/{{i.id}}"><button class="btn btn-primary cart bg-info quickview" id="qv{{i.id}}">Quick View</button></a></div>
+  </div>
+</div>
+
+          {% if forloop.counter|divisibleby:divider and forloop.counter > 0 and not forloop.last %}
+          </div></div><div class="carousel-item"><div class="container">
+
+            {% endif %}
+          {% endfor %}
+
+
+</div>
+</div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators{{forloop.counter}}" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon active" aria-hidden="true" style="background-color:black;border-radius: 24px;"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators{{forloop.counter}}" data-bs-slide="next">
+    <span class="carousel-control-next-icon active" aria-hidden="true" style="background-color:black;border-radius: 24px;"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+         </div>
+        {% endfor %}
+
+{% endblock %}
+{% block js %}
+<script>
+     if(localStorage.getItem('cart')==null){
+        var cart={};
+        }
+      else{
+        cart=JSON.parse(localStorage.getItem('cart'));
+        cart2=cart;
+        for (var item in cart2){
+            if(cart2[item][2]==0){
+                delete cart2[item];}}
+        cart=cart2;
+        updateCart(cart);
+      };
+      $('.cart').click(function(){
+        var idstr=this.id.toString();
+        if(cart[idstr]!=undefined){
+        qty=cart[idstr][2]+1;
+        }
+        else{
+        img=document.getElementById('img'+idstr).getAttribute("src");
+        name=document.getElementById('name'+idstr).innerHTML;
+        qty=1;
+        price=document.getElementById('price'+idstr).innerHTML;
+        cart[idstr]=[img,name,qty,price];
+        }
+        updateCart(cart);
+        });
+        function updateCart(cart) {
+            var sum=0;
+            for (var item in cart) {
+                sum+=cart[item][2];
+                document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus bg-info'>-</button> <span id='val" + item + "''>" + cart[item][2] + "</span> <button id='plus" + item + "' class='btn btn-primary plus bg-info'> + </button>";
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cart').innerHTML = sum;
+
+        }
+        // If plus or minus button is clicked, change the cart as well as the display value
+        $('.divpr').on("click", "button.minus", function() {
+            a = this.id.slice(7, );
+            cart['pr' + a][2] = cart['pr' + a][2] - 1;
+            cart['pr' + a][2] = Math.max(0, cart['pr' + a][2]);
+
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][2];
+
+            updateCart(cart);
+
+        });
+        $('.divpr').on("click", "button.plus", function() {
+            a = this.id.slice(6, );
+            cart['pr' + a][2] = cart['pr' + a][2] + 1;
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][2];
+            updateCart(cart);
+        });
+
+
+
+
+    </script>
+{% endblock %}

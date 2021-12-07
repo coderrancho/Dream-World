@@ -1,0 +1,77 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Checkout - Dream World {% endblock %}
+{% block body %}
+{% for message in messages  %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>Message : </strong> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+          </div>
+      {% endfor %}
+<div class="container my-3">
+  <h3>Enter Address and Other Details</h3>
+<form class="row g-3" method="post" action="/shop/checkout/"> {% csrf_token %}
+  <input type="hidden" name="itemsJson" id="itemsJson">
+  <input type="hidden" name="amount" id="amount">
+  <div class="col-md-6">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" placeholder="Enter name" name="name" required>
+  </div>
+  <div class="col-md-6">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+  </div>
+  <div class="col-12">
+    <label for="address1" class="form-label">Address</label>
+    <input type="text" class="form-control" id="address1" placeholder="1234 Main St" name="address1" required>
+  </div>
+  <div class="col-12">
+    <label for="address2" class="form-label">Address 2</label>
+    <input type="text" class="form-control" id="address2" placeholder="Apartment, studio, or floor" name="address2" required>
+  </div>
+  <div class="col-md-6">
+    <label for="city" class="form-label">City</label>
+    <input type="text" class="form-control" id="city" placeholder="Enter city" name="city" required>
+  </div>
+    <div class="col-md-6">
+    <label for="phone" class="form-label">Phone no.</label>
+    <input type="tel" class="form-control" id="phone" placeholder="Enter phone no." name="phone" required>
+  </div>
+
+  <div class="col-md-6">
+    <label for="zip_code" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="zip_code" placeholder="Enter zip" name="zip_code" required>
+  </div>
+
+  <div class="col-md-6">
+    <label for="password" class="form-label">Password</label>
+    <input type="text" class="form-control" id="password" placeholder="Enter password" name="password" required>
+  </div>
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary bg-info">Place Order</button>
+  </div>
+</form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    if(localStorage.getItem('cart')==null){
+        var cart={};
+        }
+    else{
+        cart=JSON.parse(localStorage.getItem('cart'));
+        }
+    let totalQty=0;
+    let total=0;
+    for (var item in cart){
+      totalQty+=cart[item][2];
+      total+=cart[item][2] * Number(cart[item][3].slice(3,));
+    }
+    document.getElementById('cart').innerHTML = totalQty;
+    $('#itemsJson').val(JSON.stringify(cart));
+    $('#amount').val(total)
+    
+</script>
+{% endblock %}

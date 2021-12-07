@@ -1,0 +1,32 @@
+{% extends 'shop/basic.html' %}
+{% block title%}Payment Status{% endblock %}
+{% block style %}
+.container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    flex-direction:column;
+}
+{% endblock style %}
+{% block body %}
+<div class="container">
+    <div class="my-4 container">
+
+        
+        {% if response.RESPCODE == '01' %}
+        <img src="https://cdn.pixabay.com/photo/2013/07/13/10/48/check-157822_960_720.png" height="100px" width="100px"><br>
+        <h2 style="color:#0dcaf0;">Thanks for ordering with us <br></h2>
+        <h6  class="my-3" style="color:#2ce22c;">YOUR ORDER IS SUCCESSFUL <br>PLEASE TRACK YOUR ORDER USING YOUR ORDER ID <b style="color:#0dcaf0;">{{response.ORDERID}}</b></h6>
+        {% else %}
+        <h6 class="my-3" style="color:red;">SORRY WE CAN'T PROCESS YOUR ORDER</h6>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}
+{% block js %}
+<script>
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'shop/basic.html' %}
+{% block title %} {{product.product_name}} - Dream World {% endblock %}
+{% block style %}
+    .img{
+    width:100%;
+    height:24rem;
+}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 my-3">
+                <img src="/media/{{product.image}}" class="img">
+            </div>
+            <div class="col-md-8">
+                <h1>{{product.product_name}}</h1>
+                <p><b>Rs. {{product.price}}</b></p>
+                <p>{{product.desc}}</p>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    if(localStorage.getItem('cart')==null){
+        var cart={};
+        }
+    else{
+        cart=JSON.parse(localStorage.getItem('cart'));
+        }
+    let totalQty=0;
+    for (var item in cart){
+      totalQty+=cart[item][2];
+    }
+    document.getElementById('cart').innerHTML = totalQty;
+
+</script>
+{% endblock %}

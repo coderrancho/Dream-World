@@ -1,0 +1,72 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Cart - Dream World {% endblock %}
+{% block style %}
+  #div{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+flex-direction:column;
+text-align:center;
+  }
+#footer{
+position:relative;}
+{% endblock %}
+{% block body %}
+{% load static %}
+<div class="container my-4 list-group" id="div"></div>
+
+{% endblock %}
+{% block js %}
+<script>
+if(localStorage.getItem('cart')==null){
+        var cart={};
+        }
+      else{
+  cart=JSON.parse(localStorage.getItem('cart'));
+  cart2=cart;
+        for (var item in cart2){
+            if(cart2[item][2]==0){
+                delete cart2[item];}}
+        cart=cart2;
+  }
+  if(Object.keys(cart).length===0){
+    document.getElementById("div").innerHTML='<h3>Please add product to view cart</h3>';
+    }
+  else{
+    let sno=1;
+    let total=0;
+    let totalQty=0;
+    varHtml=`<h3 class="my-3">Review you cart items</h3><table class="table" style="table-layout:fixed;width:100%;"><thead><tr><th scope="col" id="sno">S.no</th><th scope="col" id="image">Image</th><th scope="col" id="name">Name</th><th scope="col" id="qty">Qty</th><th scope="col" id="price">Price</th></tr></thead><tbody id="row">`
+    for (let item in cart){
+
+      varHtml+=`<tr>
+      <th scope="row">${sno}</th>
+      <td><img src=${cart[item][0]} height="auto" width="100%"></td>
+      <td>${cart[item][1]}</td>
+      <td>${cart[item][2]}</td>
+      <td>${cart[item][3]}</td>
+    </tr>`;
+    sno+=1;
+    total+=cart[item][2] * Number(cart[item][3].slice(3,));
+    totalQty+=cart[item][2];
+    }
+    varHtml+=`<tr>
+      <th scope="row"><b>Total</b></th>
+      <td></td>
+      <td></td>
+      <td><b>${totalQty}</b></td>
+      <td><b>Rs ${total}</b></td>
+    </tr>`;
+    varHtml+=`</tbody></table>`;
+    varHtml+=`<div class="container" style="display:block;width:auto;"> <a class="btn btn-primary bg-info mx-2" href="/shop/signup" role="button">Proceed</a><a class="btn btn-primary bg-info" href="/shop/cart" role="button" id="clearCart">Clear Cart</a></div>`
+    document.getElementById("div").innerHTML=varHtml;
+     document.getElementById('cart').innerHTML = totalQty;
+   }
+   $('#clearCart').click(function(){
+   localStorage.clear('cart');
+   });
+
+</script>
+
+
+{% endblock %}

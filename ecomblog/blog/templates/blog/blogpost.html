@@ -1,0 +1,52 @@
+{% extends 'blog/basic.html' %}
+{% block title %} Blogpost - Dream World {% endblock %}
+{% block body %}
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-8 blog-main">
+            <h3 class="pb-4 mb-4 font-italic border-bottom">
+                {{post.title}}
+            </h3>
+            <img src="/media/{{post.thumbnail}}" height="100px" width="100px">
+            <div class="blog-post">
+                <h2 class="blog-post-title">{{post.head0}}</h2>
+                <p class="blog-post-meta">{{post.pub_date}} <a class="nav-link" href="/shop" style="padding:0px">Dream World</a></p>
+                <p>{{post.chead0}}</p>
+                <h2>{{post.head1}}</h2>
+                <p>{{post.chead1}}</p>
+                <h2>{{post.head2}}</h2>
+                <p>{{post.chead2}}</p>
+            </div>
+           <div class="d-grid gap-2 d-md-block">
+               {% if 1 == post.post_id %}
+                <a class="btn btn-primary bg-info"  style="float:right" href="/blog/blogpost/{{post.post_id | add:1}}" role="button">Next→</a>
+               {% elif lenPost == post.post_id %}
+               <a class="btn btn-primary bg-info"  href="/blog/blogpost/{{post.post_id  | add:'-1'}}" role="button"> ←Previous</a>
+               {% else %}
+               <a class="btn btn-primary bg-info" href="/blog/blogpost/{{post.post_id  | add:'-1'}}" role="button"> ←Previous</a>
+                <a class="btn btn-primary bg-info" style="float:right" href="/blog/blogpost/{{post.post_id | add:1}}" role="button">Next→</a>
+               {% endif %}
+
+           </div>
+        </div>
+        <aside class="col-md-4 blog-sidebar">
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="font-italic">About</h4>
+                <p class="mb-0">Dream World is an <em>ecommerce website</em>. You can use it for buying and searching items online. </p>
+            </div>
+            <div class="p-4">
+                <h4 class="font-italic">Contact Us On: </h4>
+                <ol class="list-unstyled">
+                    <li><a class="nav-link active" href="https://github.com/">GitHub</a></li>
+                    <li><a class="nav-link active" href="https://twitter.com/?lang=en-in">Twitter</a></li>
+                    <li><a class="nav-link active" href="https://www.facebook.com/">Facebook</a></li>
+                </ol>
+            </div>
+        </aside><!-- /.blog-sidebar -->
+    </div>
+</div>
+
+
+
+{% endblock %}
