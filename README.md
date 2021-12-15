@@ -7,7 +7,7 @@
 - Dreamworld is also integrated with **PAYTM**. Yes you read right, paytm is also integrated with it so that user can make payment easily.
 - Let's have a journey across it.
 ***
-### <font color='cyan'>HOME</font>
+###  HOME
 ***
 Yay, this is the home page. One window screen can't accomodate complete page as a whole but you should definitely scroll down to see magical products.
 
