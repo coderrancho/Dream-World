@@ -81,5 +81,5 @@ If you want to know what new product we have just look here.
 
 ![image](https://user-images.githubusercontent.com/85209817/146190457-678215ea-668a-4b9e-8eb8-f67c698b89f2.png)
 
-## THANKS FOR VISITNG
+## THANKS FOR VISITING
 
